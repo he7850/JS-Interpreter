@@ -4,16 +4,16 @@ package JSInterpreter;
  * Created by HUBIN on 2016/1/6.
  */
 public class Token {
-    enum TokenType {    //µ¥¸ötokenµÄËùÓĞ¿ÉÄÜÀàĞÍ
-        NUMBER, STRING, IDENTIFY,  //±äÁ¿ÀàĞÍ
+    enum TokenType {    //å•ä¸ªtokençš„æ‰€æœ‰å¯èƒ½ç±»å‹
+        NUMBER, STRING, IDENTIFY,  //å˜é‡ç±»å‹
         OpenBracket, CloseBracket, /*[*/
         OpenBrace, CloseBrace, /*{*/
         OpenParenthese, CloseParenthese, /*(*/
-        FOR, WHILE, FUNCTION, IF, ELSE, VAR, RETURN, NEW, //Âß¼­·ûºÅ
-        ADD, SUB, MUL, DIV, MOD,//¼Ó¼õ³Ë³ı
+        FOR, WHILE, FUNCTION, IF, ELSE, VAR, RETURN, NEW, //é€»è¾‘ç¬¦å·
+        ADD, SUB, MUL, DIV, MOD,//åŠ å‡ä¹˜é™¤
         COLON/*:*/, EQ/*==*/, BIND/*=*/, SemiColon/*;*/, COMMA/*;*/,
-        GT, LT, GE, LE, //±È½Ï·ûºÅ
-        AND, OR, UNEQ, NOT //Âß¼­ÔËËã·û&|=!
+        GT, LT, GE, LE, //æ¯”è¾ƒç¬¦å·
+        AND, OR, UNEQ, NOT //é€»è¾‘è¿ç®—ç¬¦&|=!
     }
 
     public TokenType type;

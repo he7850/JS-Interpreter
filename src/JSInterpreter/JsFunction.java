@@ -6,10 +6,10 @@ import java.util.ArrayList;
  * Created by HUBIN on 2016/1/6.
  */
 public class JsFunction extends JsObject {
-    public ArrayList<String> args;  //²ÎÊıÁĞ±í
-    public JsExpression body;       //º¯ÊıÌå
-    public Env env;                 //º¯ÊıÔËĞĞ»·¾³
-    public boolean hasReturnValue;  //ÊÇ·ñÓĞ·µ»ØÖµ
+    public ArrayList<String> args;  //å‚æ•°åˆ—è¡¨
+    public JsExpression body;       //å‡½æ•°ä½“
+    public Env env;                 //å‡½æ•°è¿è¡Œç¯å¢ƒ
+    public boolean hasReturnValue;  //æ˜¯å¦æœ‰è¿”å›å€¼
 
     public JsFunction(ArrayList<String> args, JsExpression body, Env env) {
         this.args = args;
@@ -38,7 +38,7 @@ public class JsFunction extends JsObject {
         return new JsFunction(args, body, newEnv);
     }
 
-    //º¯ÊıµÄÖ´ĞĞ
+    //å‡½æ•°çš„æ‰§è¡Œ
     public JsObject evaluate() throws MyException {
         if (hasReturnValue)
             return this.body.evaluate(env);

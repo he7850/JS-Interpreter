@@ -7,17 +7,17 @@ import java.util.function.BiFunction;
  * Created by HUBIN on 2016/1/6.
  */
 public class Env {
-    public Env outer;                       //Íâ²ã»·¾³
-    public HashMap<String, JsObject> dict;  //È«¾Ö±äÁ¿¼¯ºÏ
+    public Env outer;                       //å¤–å±‚ç¯å¢ƒ
+    public HashMap<String, JsObject> dict;  //å…¨å±€å˜é‡é›†åˆ
     public static HashMap<String, BiFunction<JsExpression[], Env, JsObject>> builtins
-            = new HashMap<String, BiFunction<JsExpression[], Env, JsObject>>(); //ÄÚ½¨º¯Êı
+            = new HashMap<String, BiFunction<JsExpression[], Env, JsObject>>(); //å†…å»ºå‡½æ•°
 
     public Env(Env outer)
     {
         this.outer = outer;
         this.dict = new HashMap<>();
     }
-    //±äÁ¿£¨¶¨Òå£©¸³Öµ
+    //å˜é‡ï¼ˆå®šä¹‰ï¼‰èµ‹å€¼
     public JsObject assignVariable(String name, JsObject obj)
     {
         if(dict.containsKey(name))
@@ -30,7 +30,7 @@ public class Env {
         }
         return obj;
     }
-    //ÔÚÓòÄÚÑ°ÕÒ±äÁ¿
+    //åœ¨åŸŸå†…å¯»æ‰¾å˜é‡
     public JsObject findInScope(String key)
     {
         if (dict.containsKey(key))
@@ -44,7 +44,7 @@ public class Env {
         Env env = this;
         while (env != null)
         {
-            //´Óµ±Ç°ÓòÏòÍâËÑË÷
+            //ä»å½“å‰åŸŸå‘å¤–æœç´¢
             if (env.dict.containsKey(key))
             {
                 return env.dict.get(key);
@@ -53,7 +53,7 @@ public class Env {
         }
         throw new MyException(key + " is not defined");
     }
-    //ĞÂÔöÄÚ½¨º¯Êı
+    //æ–°å¢å†…å»ºå‡½æ•°
     public Env Builtin(String name, BiFunction<JsExpression[], Env, JsObject> lambda)
     {
         builtins.put(name, lambda);
