@@ -1,4 +1,4 @@
-package JSInterpreter;
+package com.hubinstudio.jsinterpreter.types;
 
 /**
  * Created by HUBIN on 2016/1/6.

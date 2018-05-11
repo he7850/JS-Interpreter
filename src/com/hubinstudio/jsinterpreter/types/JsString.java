@@ -1,10 +1,10 @@
-package JSInterpreter;
+package com.hubinstudio.jsinterpreter.types;
 
 /**
  * Created by HUBIN on 2016/1/8.
  */
 public class JsString extends JsObject {
-    String value;
+    public String value;
 
     public JsString(String value) {
         this.value = value;

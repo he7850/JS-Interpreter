@@ -1,4 +1,8 @@
-package JSInterpreter;
+package com.hubinstudio.jsinterpreter.types;
+
+import com.hubinstudio.jsinterpreter.Env;
+import com.hubinstudio.jsinterpreter.JsExpression;
+import com.hubinstudio.jsinterpreter.StrException;
 
 import java.util.ArrayList;
 
@@ -28,9 +32,9 @@ public class JsFunction extends JsObject {
         return false;
     }
 
-    public JsFunction UpdateArgsAndEnv(JsObject[] parameters, Env env) throws MyException {
+    public JsFunction UpdateArgsAndEnv(JsObject[] parameters, Env env) throws StrException {
         if (args.size() != parameters.length)
-            throw new MyException("Function arguments do not match");
+            throw new StrException("Function arguments do not match");
         Env newEnv = new Env(env);
         for (int i = 0; i < parameters.length; i++) {
             newEnv.assignVariable(this.args.get(i), parameters[i]);
@@ -39,7 +43,7 @@ public class JsFunction extends JsObject {
     }
 
     //函数的执行
-    public JsObject evaluate() throws MyException {
+    public JsObject evaluate() throws StrException {
         if (hasReturnValue)
             return this.body.evaluate(env);
         else

@@ -1,4 +1,6 @@
-package JSInterpreter;
+package com.hubinstudio.jsinterpreter;
+
+import com.hubinstudio.jsinterpreter.types.*;
 
 import java.util.ArrayList;
 
@@ -18,16 +20,16 @@ public class JsExpression {
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(value);
+        sb.append("value="+value+", child=");
         for (JsExpression item : child) {
-            sb.append(" ");
             sb.append(item.toString());
+            sb.append(" ");
         }
-        return sb.toString();
+        return sb.toString().trim();
     }
 
     //表达式的执行
-    public JsObject evaluate(Env env) throws MyException {
+    public JsObject evaluate(Env env) throws StrException {
         //根节点value为空值，使用它的唯一子节点
         JsExpression x;
         if (value.equals("")) {
@@ -72,15 +74,15 @@ public class JsExpression {
                 return res;
             } else if (x.value.equals("return")) {  //函数返回值
                 return x.child.get(0).evaluate(env);
-            } else if (x.value.equals("var")){
+            } else if (x.value.equals("var")) {
                 JsObject res = new JsObject();
-                for (JsExpression assExp: x.child) {
+                for (JsExpression assExp : x.child) {
                     res = env.assignVariable(assExp.child.get(0).value, assExp.child.get(1).evaluate(env));
                 }
                 return res;
             } else if (x.value.equals("=")) {   //给变量节点赋表达式节点的值
                 Env currentEnv = env;
-                while (currentEnv.outer != null ) {
+                while (currentEnv.outer != null) {
                     if (currentEnv.findInScope(x.child.get(0).value) != null)   //在当前域内找到
                         return currentEnv.assignVariable(x.child.get(0).value, x.child.get(1).evaluate(env));
                     currentEnv = currentEnv.outer;  //从当前层向外拓展
@@ -111,25 +113,26 @@ public class JsExpression {
                 JsExpression[] args = new JsExpression[x.child.size()];
                 x.child.toArray(args);
                 return Env.builtins.get(x.value).apply(args, env);
-            } else if (x.value.equals("string")){
+            } else if (x.value.equals("string")) {
                 return new JsString(x.child.get(0).value);
             } else {    //自定义函数调用
-                JsObject[] arguments = x.child.stream().skip(1).map(item -> {   //skip第一项"args"
+                //获得参数
+                JsObject[] arguments = x.child.stream().skip(1).map(item -> {   //第一项为"args"，需要skip
                     try {
                         return item.evaluate(env);  //计算参数表达式
-                    } catch (MyException e) {
-                        //e.printStackTrace();
+                    } catch (StrException e) {
                         return new JsObject();
                     }
                 }).toArray(JsObject[]::new);
-                if (x.value.equals("print")){
-                    if (arguments.length!=1) {
-                        throw new MyException("Wrong argument number");
+                //执行函数调用
+                if (x.value.equals("print")) {  //print(string)为内建控制台输出函数
+                    if (arguments.length != 1) {
+                        throw new StrException("Wrong argument number");
                     } else {
-                        System.out.println(""+arguments[0].toString());
+                        System.out.println("" + arguments[0].toString());
                         return new JsObject();
                     }
-                }else{
+                } else {
                     JsFunction func = (JsFunction) env.Find(x.value);
                     return func.UpdateArgsAndEnv(arguments, env).evaluate();
                 }
